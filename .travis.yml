@@ -5,6 +5,7 @@ git:
 install: 
     - rm -rf public || exit 0
 script:
+    - pwd
     - ./binaries/hugo --theme=beautifulhugo
 deploy:
     provider: pages
