@@ -14,10 +14,10 @@ deploy:
     skip_cleanup: true
     github_token: $GITHUB_TOKEN
     on:
-        branch: master
+        branch: blog
     local_dir: public
     repo: whalecold/whalecold.github.io
     #fqdn: <custom-domain-if-needed>
     target_branch: master
-    email: zls1129@gmmail.com
+    email: $GITHUB_EMAIL
     name: whalecold
