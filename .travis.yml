@@ -14,7 +14,7 @@ deploy:
         branch: master
     local_dir: public
     repo: whalecold/whalecold.github.io
-    fqdn: <custom-domain-if-needed>
+    #fqdn: <custom-domain-if-needed>
     target_branch: master
     email: zls1129@gmmail.com
     name: whalecold
