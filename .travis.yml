@@ -4,6 +4,9 @@ git:
     depth: 1
 install: 
     - rm -rf public || exit 0
+branches:
+  only:
+    - blog
 script:
     - ./binaries/hugo --theme=beautifulhugo
 deploy:
