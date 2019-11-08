@@ -4,13 +4,14 @@ go:
   - 1.13.3
 git:
     depth: 1
-install: 
+install:
+    - go get github.com/gohugoio/hugo
     - rm -rf public || exit 0
 branches:
   only:
     - blog
 script:
-    - ./binaries/hugo --theme=pure
+    - hugo --theme=pure
 deploy:
     provider: pages
     skip_cleanup: true
