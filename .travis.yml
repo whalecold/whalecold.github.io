@@ -5,7 +5,6 @@ go:
 git:
     depth: 1
 install:
-    - yum install -y sed
     - sed -i 's/disqus-short-name/'''$DISQUS_SHORTNAME'''/g' ./config.yml
     - go get github.com/gohugoio/hugo
     - rm -rf public || exit 0
