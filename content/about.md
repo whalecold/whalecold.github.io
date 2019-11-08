@@ -1,18 +1,15 @@
 +++
-title = "About Me"
+title = "About"
 date = "2018-09-20"
-menu = "main"
 +++
 
-hello world
-
-* name: 畅畅
-* city: *hangzhou*
+* name: zhenglisheng
 * profession： *software engineer*
 * language:
 
 > -  c/c++
 > -  golang
+> -  rust
 > -  python
 
 Learn more and contribute on [GitHub](https://github.com/whalecold).
