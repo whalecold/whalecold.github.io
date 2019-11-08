@@ -8,7 +8,7 @@ branches:
   only:
     - blog
 script:
-    - ./binaries/hugo --theme=beautifulhugo
+    - ./binaries/hugo --theme=pure
 deploy:
     provider: pages
     skip_cleanup: true
