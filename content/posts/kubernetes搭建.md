@@ -8,6 +8,9 @@ categories: [
 tags: ["golang", "kubernetes"]
 ---
 
+一个简单的 kubernetes 集群搭建教程
+<!--more-->
+
 ## kubernetes v1.10.6 搭建手记
 
 这里主要是跟着这篇 [博客](https://blog.qikqiak.com/post/manual-install-high-available-kubernetes-cluster/) 做的，但是这篇博客是基于 1.8.2 的版本来的，和 1.10.6 有不少区别，所以再做个记录。

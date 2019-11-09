@@ -7,6 +7,9 @@ categories: [
 tags: ["shell", "linux"]
 ---
 
+shell operation record
+<!--more-->
+
 ### shell note
 
 ---
