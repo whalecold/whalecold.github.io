@@ -12,6 +12,5 @@ tags: ["color"]
 留个坑 以后更吧 哈哈哈哈哈哈
 <!--more-->
 
-<center>![forbidden_city](/static/forbidden_city.jpg)</center>
-<center>![fall](/static/fall.jpg)</center>
-
+<center>![forbidden_city](/photography/forbidden_city.jpg)</center>
+<center>![fall](/photography/fall.jpg)</center>
