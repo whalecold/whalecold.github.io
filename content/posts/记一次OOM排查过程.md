@@ -1,11 +1,12 @@
+
 ---
-title:  记录一次 OOM 排查记录
-description: 记录一次 OOM 排查记录
+title:  记一次 OOM 排查过程
+description: 记一次 OOM 排查过程
 date: 2019-11-12
 categories: [
-    "work-note"，
+    "work-note",
 ]
-tags: ["golang"， "kubernetes"]
+tags: ["golang", "kubernetes"]
 ---
 
 许多年以后，面对 `goland` 编辑器，我准会想起找到 bug 的那个遥远的下午。
@@ -39,7 +40,9 @@ func enqueue(rk *key) {
 
 > The rule of thumb is: use AddRateLimited when you're retrying after an error， use Add when you're reacting to a change. For retry-able errors you'll want to do increasing backoff between consecutive attempts on the same key (with a ceiling, of course).
 
-整理了一个关系图![图片](image.png)
+整理了一个关系图:
+
+<center>![图片](/images/RateLimitingInterface.png)</center>
 
 而导致 bug 的这个地方在一开始就使用了 `queue.AddRateLimited`，这个函数会带来 latency，但是仅仅是有点延迟但也能处理的，不应该会有 OOM 的情况发生，但是注意到一个点就是有个 `resync` 定时的往这个 queue 里丢东西，是不是这两个因素加起来导致的？所以去分析了下 `queue.AddRateLimited` 的实现，发现这个函数实际调用的又是 `q.DelayingInterface.AddAfter(item, q.rateLimiter.When(item))`, `AddAfter` 的代码如下：
 ```
