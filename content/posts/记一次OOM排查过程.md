@@ -44,7 +44,25 @@ func enqueue(rk *key) {
 
 <center>![图片](/images/RateLimitingInterface.png)</center>
 
-而导致 bug 的这个地方在一开始就使用了 `queue.AddRateLimited`，这个函数会带来 latency，但是仅仅是有点延迟但也能处理的，不应该会有 OOM 的情况发生，但是注意到一个点就是有个 `resync` 定时的往这个 queue 里丢东西，是不是这两个因素加起来导致的？所以去分析了下 `queue.AddRateLimited` 的实现，发现这个函数实际调用的又是 `q.DelayingInterface.AddAfter(item, q.rateLimiter.When(item))`, `AddAfter` 的代码如下：
+而导致 bug 的这个地方在一开始就使用了 `queue.AddRateLimited`，这个函数会带来 latency，但是仅仅是有点延迟但也能处理的，不应该会有 OOM 的情况发生，但是重新的去看 `queue.RateLimitingInterface` 这个 `interface`,
+```
+type RateLimitingInterface interface {
+	DelayingInterface
+
+	// AddRateLimited adds an item to the workqueue after the rate limiter says it's ok
+	AddRateLimited(item interface{})
+
+	// Forget indicates that an item is finished being retried.  Doesn't matter whether it's for perm failing
+	// or for success, we'll stop the rate limiter from tracking it.  This only clears the `rateLimiter`, you
+	// still have to call `Done` on the queue.
+	Forget(item interface{})
+
+	// NumRequeues returns back how many times the item was requeued
+	NumRequeues(item interface{}) int
+}
+
+```
+你就会发现这个还有个 function `Forget`, 这个 function 是用来清理 `rateLimiter` 的，而使用的地方始终没有去调用这个 function。接下来再去去分析了下 `queue.AddRateLimited` 的实现，发现这个函数实际调用的又是 `q.DelayingInterface.AddAfter(item, q.rateLimiter.When(item))`, `AddAfter` 的代码如下：
 ```
 // AddAfter adds the given item to the work queue after the given delay
 func (q *delayingType) AddAfter(item interface{}, duration time.Duration) {
@@ -94,4 +112,4 @@ func (r *ItemExponentialFailureRateLimiter) When(item interface{}) time.Duration
 }
 ```
 
-看到这里大概的原因就找到了，每次调用 `AddRateLimited` 的时候对应的 item 就会按照失败次数指数级的推迟去处理，而 `resync` 的频率很高，所以每次塞进去的 item 实际上都没有立刻被处理，而是不断的推后，内存就会一直在增大了，就像一个流入大于流出的水池。
+看到这里大概的原因就找到了，每次调用 `AddRateLimited` 的时候对应的 item 的 failures 就会加 1，这样每次的 backoff 就会指数级变大，但是程序里面又没有调用 `Forget` 去清理 failures, 所以随着 `AddRateLimited` 的调用，item 被存在内存中的时间也就越久，就像一个流入大于流出的水池，一直在注水缺没有去消耗水。
