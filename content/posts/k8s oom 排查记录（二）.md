@@ -24,7 +24,7 @@ tags: ["kubernetes", "linux", "cgroup"]
 - cgroup 的 OOM, 这种情况是由于 `Pod` 中的 `Container` 设置的 `limit`, 当使用资源超过 `limit` 的时候会触发 OOM.
 
 这里又去 `Prometheus` 查询了下数据,
-<center>![内容如下](/images/prometheus_memory_pod.png)</center>
+![内容如下](/images/prometheus_memory_pod.png)
 发现有好几条数据，最上面的那条是 `Pod` 的 `container_memory_usage_bytes`, 确实达到了 100M, 而下面的两条数据分别是这个 `Pod` 下 `Container` 的数据，按理来说下面数据的加起来等于 `Pod` 的数据才对，这里怀疑是不是 `Prometheus` 出错了，所以准备去查看系统的 `cgroup` 信息。
 
 登陆到对应节点的主机。在目录 `/sys/fs/cgroup/memory/kubepods/` 下会有几个文件夹：besteffort、burstable 和 guaranteed，查看下 `Pod` 的 `QosClass` 进入对应的目录，然后会看到很多类似于 `pod051f90c3-2ac0-11ea-a9b5-525400003709` 这样的目录，这里的拼写规则是 `pod + pod.uid` 来的，所以很容易就可以进入指定 `Pod` 的目录下，大概会看到一下!
