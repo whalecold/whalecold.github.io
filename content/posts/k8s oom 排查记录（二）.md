@@ -28,7 +28,7 @@ tags: ["kubernetes", "linux", "cgroup"]
 发现有好几条数据，最上面的那条是 `Pod` 的 `container_memory_usage_bytes`, 确实达到了 100M, 而下面的两条数据分别是这个 `Pod` 下 `Container` 的数据，按理来说下面数据的加起来等于 `Pod` 的数据才对，这里怀疑是不是 `Prometheus` 出错了，所以准备去查看系统的 `cgroup` 信息。
 
 登陆到对应节点的主机。在目录 `/sys/fs/cgroup/memory/kubepods/` 下会有几个文件夹：besteffort、burstable 和 guaranteed，查看下 `Pod` 的 `QosClass` 进入对应的目录，然后会看到很多类似于 `pod051f90c3-2ac0-11ea-a9b5-525400003709` 这样的目录，这里的拼写规则是 `pod + pod.uid` 来的，所以很容易就可以进入指定 `Pod` 的目录下，大概会看到一下!
-<center>[内容](/images/cgroup_memory_container.png)</center>
+![内容](/images/cgroup_memory_container.png)
 
 这里的 `memory.max_usage_in_bytes` 保存的就是当前 `Pod` 的使用情况，然后再分别进入两个容器目录下查看了对应的内存和 `Prometheus` 看到基本一致。同事告诉我这是 `cgroup` 的一个 bug，在新版本的内核中已经修复了。去 github 上找了下有个类似的 [issue](https://github.com/moby/moby/issues/29638), 里面有人尝试 `echo 1 > /sys/fs/cgroup/memory/docker/memory.force_empty` 去解决问题, 但是今天试的时候发现报错 `-bash: echo: write error: Device or resource busy`，目前的解决办法是杀掉这个 `Pod` 然后让 `k8s` 起一个新的。
 

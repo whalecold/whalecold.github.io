@@ -21,18 +21,18 @@ docker 的网络隔离用了 linux 的 namespace，这里就不多做阐述了�
 docker ps | grep webserver
 ```
 显示如下
-<center>![内容](/images/docker_note/docker_id.png)</center>
+![内容](/images/docker_note/docker_id.png)
 
 - 从上图中可以知道容器的 id, 然后通过这个 id 拿到 pid.
 ```
 docker inspect ${container_id} --format='{{.State.Pid}}'
 ```
 显示如下
-<center>![内容](/images/docker_note/pid.png)</center>
+![内容](/images/docker_note/pid.png)
 
 - 找到 pid 后就可以直接进入 network namespace 了
 ```
 nsenter -t ${pid} -n
 ```
 这时候就进入了容器的 network namesapce 了，使用 `ifconfig` 可以看到当前的网卡信息
-<center>![图片](/images/docker_note/ifconfig.png)</center>
+![图片](/images/docker_note/ifconfig.png)

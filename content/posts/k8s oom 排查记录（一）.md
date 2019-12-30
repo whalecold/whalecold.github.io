@@ -42,7 +42,7 @@ func enqueue(rk *key) {
 
 整理了一个关系图:
 
-<center>![图片](/images/rate_limiting_interface.png)</center>
+![图片](/images/rate_limiting_interface.png)
 
 而导致 bug 的这个地方在一开始就使用了 `queue.AddRateLimited`，这个函数会带来 latency，但是仅仅是有点延迟但也能处理的，不应该会有 OOM 的情况发生，但是重新的去看 `queue.RateLimitingInterface` 这个 `interface`,
 ```
