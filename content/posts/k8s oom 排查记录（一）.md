@@ -1,6 +1,6 @@
 
 ---
-title:  记一次 OOM 排查过程
+title:  k8s oom 排查记录（一）
 description: 记一次 OOM 排查过程
 date: 2019-11-12
 categories: [
