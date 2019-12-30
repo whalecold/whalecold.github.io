@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        k8s oom 排查记录（一） - wowww
+      </title>
+    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  
+  <meta name="theme-color" content="#000000" />
+  
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <meta name="description" content="记一次 OOM 排查过程" />
+  <meta name="generator" content="Hugo 0.63.0-DEV with theme pure" />
+  <title>k8s oom 排查记录（一） - wowww</title>
+  
+
+  <link rel="stylesheet" href="https://whalecold.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/9.15.10/styles/github.min.css">
+  <meta property="og:title" content="k8s oom 排查记录（一）" />
+<meta property="og:description" content="记一次 OOM 排查过程" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://whalecold.github.io/2019/11/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%B8%80/" />
+<meta property="article:published_time" content="2019-11-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-11-12T00:00:00+00:00" />
+<meta itemprop="name" content="k8s oom 排查记录（一）">
+<meta itemprop="description" content="记一次 OOM 排查过程">
+<meta itemprop="datePublished" content="2019-11-12T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-11-12T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1006">
+
+
+
+<meta itemprop="keywords" content="golang,kubernetes," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s oom 排查记录（一）"/>
+<meta name="twitter:description" content="记一次 OOM 排查过程"/>
+
+  <!--[if lte IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+    <![endif]-->
+
+  <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+  </head>
+  <body class="main-center" itemscope itemtype="http://schema.org/WebPage"><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <div class="slimContent">
+      <div class="navbar-header">
+        <div class="profile-block text-center">
+          <a id="avatar" href="https://github.com/whalecold" target="_blank">
+            <img class="img-circle img-rotate" src="https://whalecold.github.io/xiaohei.jpg" width="200" height="200">
+          </a>
+          <h2 id="name" class="hidden-xs hidden-sm">whalecold</h2>
+          <h3 id="title" class="hidden-xs hidden-sm hidden-md">couxianyu</h3>
+          <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>hangzhou, China</small>
+        </div><div class="search" id="search-form-wrap">
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i
+                        class="icon icon-search"></i></button>
+            </span>
+        </div>
+        <div class="ins-search">
+            <div class="ins-search-mask"></div>
+            <div class="ins-search-container">
+                <div class="ins-input-wrapper">
+                    <input type="text" class="ins-search-input" placeholder="Type something..."
+                        x-webkit-speech />
+                    <button type="button" class="close ins-close ins-selectable" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="ins-section-wrapper">
+                    <div class="ins-section-container"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+        <ul class="nav navbar-nav main-nav">
+            <li class="menu-item menu-item-home">
+                <a href="/">
+                    <i class="icon icon-home-fill"></i>
+                  <span class="menu-title">Home</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-archives">
+                <a href="/posts">
+                    <i class="icon icon-archives-fill"></i>
+                  <span class="menu-title">Archives</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-categories">
+                <a href="/categories">
+                    <i class="icon icon-folder"></i>
+                  <span class="menu-title">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-tags">
+                <a href="/tags">
+                    <i class="icon icon-tags"></i>
+                  <span class="menu-title">Tags</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-about">
+                <a href="/about">
+                    <i class="icon icon-cup-fill"></i>
+                  <span class="menu-title">About</span>
+                </a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content"><p>enjoy~</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+      <div class="widget">
+    <h3 class="widget-title"> Categories</h3>
+    <div class="widget-body">
+        <ul class="category-list">
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/docker/" class="category-list-link">docker</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/go/" class="category-list-link">go</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/kubernetes/" class="category-list-link">kubernetes</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/linux/" class="category-list-link">linux</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/photography/" class="category-list-link">photography</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/tools/" class="category-list-link">tools</a><span class="category-list-count">2</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/work-note/" class="category-list-link">work-note</a><span class="category-list-count">2</span></li>
+        </ul>
+    </div>
+</div>
+      <div class="widget">
+    <h3 class="widget-title"> Tags</h3>
+    <div class="widget-body">
+        <ul class="tag-list">
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/cgroup/" class="tag-list-link">cgroup</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/color/" class="tag-list-link">color</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/docker/" class="tag-list-link">docker</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/go/" class="tag-list-link">go</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/golang/" class="tag-list-link">golang</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/kubernetes/" class="tag-list-link">kubernetes</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/linux/" class="tag-list-link">linux</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/mac/" class="tag-list-link">mac</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/network/" class="tag-list-link">network</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/security/" class="tag-list-link">security</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/shadowsocks/" class="tag-list-link">shadowsocks</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/shell/" class="tag-list-link">shell</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/ssl/" class="tag-list-link">ssl</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/unittest/" class="tag-list-link">unittest</a><span
+                    class="tag-list-count">1</span></li>
+            
+        </ul>
+
+    </div>
+</div>
+      
+  </div>
+</aside>
+
+    
+    
+  <aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+    <div class="slimContent">
+      <nav id="toc" class="article-toc">
+        <h3 class="toc-title">Catalogue</h3>
+        <div class="toc-content always-active"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#heading">起因</a></li>
+        <li><a href="#heading-1">排查</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+      </nav>
+    </div>
+  </aside>
+<main class="main" role="main"><div class="content">
+  <article id="-" class="article article-type-" itemscope
+    itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      <h1 itemprop="name">
+  <a
+    class="article-title"
+    href="/2019/11/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%B8%80/"
+    >k8s oom 排查记录（一）</a
+  >
+</h1>
+
+      <div class="article-meta">
+        <span class="article-date">
+  <i class="icon icon-calendar-check"></i>
+<a href="https://whalecold.github.io/2019/11/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%B8%80/" class="article-date">
+  <time datetime="2019-11-12 00:00:00 &#43;0000 UTC" itemprop="datePublished">2019-11-12</time>
+</a>
+</span><span class="article-category">
+  <i class="icon icon-folder"></i>
+  <a class="article-category-link" href="/categories/work-note/"> work-note </a>
+</span>  
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+    <a class="article-tag-link" href="/tags/golang/"> golang </a>
+    <a class="article-tag-link" href="/tags/kubernetes/"> kubernetes </a>
+  </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%B8%80/#comments"
+            class="article-comment-link">Comments</a></span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count:1006words</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count:3minutes </span>
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      <p>许多年以后，面对 <code>goland</code> 编辑器，我准会想起找到 bug 的那个遥远的下午。</p>
+<h3 id="heading">起因</h3>
+<p>这是个历史遗留问题了，从 2 年前这个组件创建到现在。但是 <code>Deployment</code> 会自动拉起 <code>OOM</code> 的 Pod， 所以也不影响使用，直到最近开始加强了对组件的监控，才发现这个问题，于是这个锅就到了我的头上。</p>
+<h3 id="heading-1">排查</h3>
+<h4 id="heading-2">问题确认</h4>
+<p>开始还是肉眼看代码，但是作为一个陈年老 bug 当然不可能这么容易的被我发现，所以第一步肯定是失败了。接着借用了 golang 的 pprof 工具，发现大部分内存都卡在了 kubernetes 一个库的调用上，即如下代码:</p>
+<pre><code>var queue workqueue.RateLimitingInterface
+
+func enqueue(rk *key) {
+	queue.AddRateLimited(rk)
+}
+</code></pre><p>到这里还是比较懵逼，后面去看下了其他组件 <code>queue.RateLimitingInterface</code> 的用法，发现这里不应该调用 <code>queue.AddRateLimited</code>，
+而是应该使用 <code>queue.Add</code>。把这个地方改了之后重新去跑了一段时间去看内存，发现内存确实稳定了，不再继续增长了。</p>
+<h4 id="heading-3">问题分析</h4>
+<p>那么为什么 <code>queue.RateLimitingInterface</code> 会导致 OOM 呢，这里先找到了最佳实践，即 <a href="https://github.com/kubernetes/sample-controller/blob/master/controller.go">sample-controller</a> 和 <a href="https://github.com/kubernetes-sigs/controller-runtime/blob/master/pkg/handler/enqueue.go#L37">controller-runtime</a>，以及一个 <a href="https://github.com/bookingcom/shipper/issues/120">issue</a>， 发现正确的用法是这样的：</p>
+<blockquote>
+<p>The rule of thumb is: use AddRateLimited when you're retrying after an error， use Add when you're reacting to a change. For retry-able errors you'll want to do increasing backoff between consecutive attempts on the same key (with a ceiling, of course).</p>
+</blockquote>
+<p>整理了一个关系图:</p>
+<p><img src="/images/rate_limiting_interface.png" alt="图片"></p>
+<p>而导致 bug 的这个地方在一开始就使用了 <code>queue.AddRateLimited</code>，这个函数会带来 latency，但是仅仅是有点延迟但也能处理的，不应该会有 OOM 的情况发生，但是重新的去看 <code>queue.RateLimitingInterface</code> 这个 <code>interface</code>,</p>
+<pre><code>type RateLimitingInterface interface {
+	DelayingInterface
+
+	// AddRateLimited adds an item to the workqueue after the rate limiter says it's ok
+	AddRateLimited(item interface{})
+
+	// Forget indicates that an item is finished being retried.  Doesn't matter whether it's for perm failing
+	// or for success, we'll stop the rate limiter from tracking it.  This only clears the `rateLimiter`, you
+	// still have to call `Done` on the queue.
+	Forget(item interface{})
+
+	// NumRequeues returns back how many times the item was requeued
+	NumRequeues(item interface{}) int
+}
+
+</code></pre><p>你就会发现这个还有个 function <code>Forget</code>, 这个 function 是用来清理 <code>rateLimiter</code> 的，而使用的地方始终没有去调用这个 function。接下来再去去分析了下 <code>queue.AddRateLimited</code> 的实现，发现这个函数实际调用的又是 <code>q.DelayingInterface.AddAfter(item, q.rateLimiter.When(item))</code>, <code>AddAfter</code> 的代码如下：</p>
+<pre><code>// AddAfter adds the given item to the work queue after the given delay
+func (q *delayingType) AddAfter(item interface{}, duration time.Duration) {
+	// don't add if we're already shutting down
+	if q.ShuttingDown() {
+		return
+	}
+
+	q.metrics.retry()
+
+	// immediately add things with no delay
+	if duration &lt;= 0 {
+		q.Add(item)
+		return
+	}
+
+	select {
+	case &lt;-q.stopCh:
+		// unblock if ShutDown() is called
+	case q.waitingForAddCh &lt;- &amp;waitFor{data: item, readyAt: q.clock.Now().Add(duration)}:
+	}
+}
+</code></pre><p>这里会根据传入的 <code>duration</code> 来决定是立刻去处理这个 item 还是延迟 duration 的时候后去处理，所以这里还是要看下 <code>q.rateLimiter.When(item)</code> 的实现：</p>
+<pre><code>func (r *ItemExponentialFailureRateLimiter) When(item interface{}) time.Duration {
+	r.failuresLock.Lock()
+	defer r.failuresLock.Unlock()
+
+	exp := r.failures[item]
+	r.failures[item] = r.failures[item] + 1
+
+	// The backoff is capped such that 'calculated' value never overflows.
+	backoff := float64(r.baseDelay.Nanoseconds()) * math.Pow(2, float64(exp))
+	if backoff &gt; math.MaxInt64 {
+		return r.maxDelay
+	}
+
+	calculated := time.Duration(backoff)
+	if calculated &gt; r.maxDelay {
+		return r.maxDelay
+	}
+
+	return calculated
+}
+</code></pre><p>看到这里大概的原因就找到了，每次调用 <code>AddRateLimited</code> 的时候对应的 item 的 failures 就会加 1，这样每次的 backoff 就会指数级变大，但是程序里面又没有调用 <code>Forget</code> 去清理 failures, 所以随着 <code>AddRateLimited</code> 的调用，item 被存在内存中的时间也就越久，就像一个流入大于流出的水池，一直在注水缺没有去消耗水。</p>
+    </div>
+    <div class="article-footer">
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/whalecold" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="https://whalecold.github.io/xiaohei.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/whalecold" target="_blank"><span class="text-dark">whalecold</span><small class="ml-1x">couxianyu</small></a></h3>
+        <div>entertain yourself, enlighten others.</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+    </div>
+  </article>
+<section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+
+</div><nav class="bar bar-footer clearfix" data-stick-bottom>
+    <div class="bar-inner">
+        <ul class="pager pull-left">
+            <li class="prev">
+                <a href="https://whalecold.github.io/2018/12/%E8%87%AA%E7%AD%BE%E8%AF%81%E4%B9%A6/" title="自签证书"><i
+                        class="icon icon-angle-left"
+                        aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+            </li>
+            <li class="next">
+                <a href="https://whalecold.github.io/2019/11/hsl%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+                    title="HSL 学习笔记"><span>Older&nbsp;&nbsp;</span><i
+                        class="icon icon-angle-right" aria-hidden="true"></i></a>
+            </li>
+            
+            <li class="toggle-toc">
+                <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false"
+                    title="Catalogue" role="button">
+                    <span>[&nbsp;</span><span>Catalogue</span>
+                    <i class="text-collapsed icon icon-anchor"></i>
+                    <i class="text-in icon icon-close"></i>
+                    <span>]</span>
+                </a>
+            </li>
+        </ul>
+        <div class="bar-right">
+            <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter"
+                data-mobile-sites="weibo,qq,qzone"></div>
+        </div>
+    </div>
+</nav>
+</main><footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+<ul class="social-links">
+    <li><a href="https://github.com/whalecold" target="_blank" title="github" data-toggle=tooltip data-placement=top >
+            <i class="icon icon-github"></i></a></li>
+    <li><a href="https://whalecold.github.io/index.xml" target="_blank" title="rss" data-toggle=tooltip data-placement=top >
+            <i class="icon icon-rss"></i></a></li>
+</ul>
+  <div class="copyright">
+    &copy;2017  -
+    2019
+    <div class="publishby">
+        Theme by <a href="https://github.com/xiaoheiAh" target="_blank"> xiaoheiAh </a>base on<a href="https://github.com/xiaoheiAh/hugo-theme-pure" target="_blank"> pure</a>.
+    </div>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+   window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/highlight.min.js"></script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/languages/rust.min.js"></script>
+<script type="text/javascript"
+   src="https://cdn.staticfile.org/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script>
+hljs.configure({
+  tabReplace: '    ', 
+  classPrefix: ''     
+                      
+})
+hljs.initHighlightingOnLoad();
+</script>
+<script type="text/javascript" src="https://whalecold.github.io/js/application.js"></script>
+<script type="text/javascript" src="https://whalecold.github.io/js/plugin.js"></script>
+<script>
+      (function (window) {
+          var INSIGHT_CONFIG = {
+              TRANSLATION: {
+                  POSTS: 'Posts',
+                  PAGES: 'Pages',
+                  CATEGORIES: 'Categories',
+                  TAGS: 'Tags',
+                  UNTITLED: '(Untitled)',
+              },
+              ROOT_URL: 'https:\/\/whalecold.github.io',
+              CONTENT_URL: 'https:\/\/whalecold.github.io\/searchindex.json ',
+          };
+          window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+      })(window);
+      </script>
+<script type="text/javascript" src="https://whalecold.github.io/js/insight.js"></script>
+
+<script defer>
+    var disqus_config = function () {
+        this.page.url = 'https:\/\/whalecold.github.io\/2019\/11\/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%B8%80\/';
+        this.page.identifier = 'whalecold-github-io';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = '//' + 'whalecold-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+  </body>
+</html>

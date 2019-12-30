@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>color on wowww</title>
+    <link>https://whalecold.github.io/tags/color/</link>
+    <description>Recent content in color on wowww</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 12 Nov 2019 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="https://whalecold.github.io/tags/color/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>HSL 学习笔记</title>
+      <link>https://whalecold.github.io/2019/11/hsl%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2019/11/hsl%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;p&gt;留个坑 以后更吧 哈哈哈哈哈哈&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

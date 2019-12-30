@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on wowww</title>
+    <link>https://whalecold.github.io/posts/</link>
+    <description>Recent content in Posts on wowww</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 30 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="https://whalecold.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>k8s oom 排查记录（二）</title>
+      <link>https://whalecold.github.io/2019/12/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%BA%8C/</link>
+      <pubDate>Mon, 30 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2019/12/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%BA%8C/</guid>
+      <description>&lt;p&gt;大概是和 oom 杠上了 - -！&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>unit test</title>
+      <link>https://whalecold.github.io/2019/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</link>
+      <pubDate>Thu, 26 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2019/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</guid>
+      <description>&lt;p&gt;golang unit test&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>docker 笔记</title>
+      <link>https://whalecold.github.io/2019/12/docker%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sat, 14 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2019/12/docker%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;p&gt;brief&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>HSL 学习笔记</title>
+      <link>https://whalecold.github.io/2019/11/hsl%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2019/11/hsl%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;p&gt;留个坑 以后更吧 哈哈哈哈哈哈&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>k8s oom 排查记录（一）</title>
+      <link>https://whalecold.github.io/2019/11/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%B8%80/</link>
+      <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2019/11/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%B8%80/</guid>
+      <description>&lt;p&gt;许多年以后，面对 &lt;code&gt;goland&lt;/code&gt; 编辑器，我准会想起找到 bug 的那个遥远的下午。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>自签证书</title>
+      <link>https://whalecold.github.io/2018/12/%E8%87%AA%E7%AD%BE%E8%AF%81%E4%B9%A6/</link>
+      <pubDate>Mon, 03 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2018/12/%E8%87%AA%E7%AD%BE%E8%AF%81%E4%B9%A6/</guid>
+      <description>&lt;p&gt;guild of self signature cert&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>科学上网</title>
+      <link>https://whalecold.github.io/2018/10/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/</link>
+      <pubDate>Tue, 09 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2018/10/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/</guid>
+      <description>&lt;p&gt;shadowsocks simple guild&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>kubernetes 搭建</title>
+      <link>https://whalecold.github.io/2018/09/kubernetes%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Wed, 26 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2018/09/kubernetes%E6%90%AD%E5%BB%BA/</guid>
+      <description>&lt;p&gt;一个简单的 kubernetes 集群搭建教程&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>shell note</title>
+      <link>https://whalecold.github.io/2017/12/shell-note/</link>
+      <pubDate>Sun, 03 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2017/12/shell-note/</guid>
+      <description>&lt;p&gt;shell operation record&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

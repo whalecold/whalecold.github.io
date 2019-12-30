@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>unittest on wowww</title>
+    <link>https://whalecold.github.io/tags/unittest/</link>
+    <description>Recent content in unittest on wowww</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 26 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="https://whalecold.github.io/tags/unittest/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>unit test</title>
+      <link>https://whalecold.github.io/2019/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</link>
+      <pubDate>Thu, 26 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2019/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</guid>
+      <description>&lt;p&gt;golang unit test&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

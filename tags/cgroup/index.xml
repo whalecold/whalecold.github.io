@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cgroup on wowww</title>
+    <link>https://whalecold.github.io/tags/cgroup/</link>
+    <description>Recent content in cgroup on wowww</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 30 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="https://whalecold.github.io/tags/cgroup/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>k8s oom 排查记录（二）</title>
+      <link>https://whalecold.github.io/2019/12/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%BA%8C/</link>
+      <pubDate>Mon, 30 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2019/12/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%BA%8C/</guid>
+      <description>&lt;p&gt;大概是和 oom 杠上了 - -！&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

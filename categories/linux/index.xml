@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on wowww</title>
+    <link>https://whalecold.github.io/categories/linux/</link>
+    <description>Recent content in linux on wowww</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 03 Dec 2017 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="https://whalecold.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>shell note</title>
+      <link>https://whalecold.github.io/2017/12/shell-note/</link>
+      <pubDate>Sun, 03 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2017/12/shell-note/</guid>
+      <description>&lt;p&gt;shell operation record&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

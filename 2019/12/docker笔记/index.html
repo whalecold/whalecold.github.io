@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        docker 笔记 - wowww
+      </title>
+    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  
+  <meta name="theme-color" content="#000000" />
+  
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <meta name="description" content="notes about docker" />
+  <meta name="generator" content="Hugo 0.63.0-DEV with theme pure" />
+  <title>docker 笔记 - wowww</title>
+  
+
+  <link rel="stylesheet" href="https://whalecold.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/9.15.10/styles/github.min.css">
+  <meta property="og:title" content="docker 笔记" />
+<meta property="og:description" content="notes about docker" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://whalecold.github.io/2019/12/docker%E7%AC%94%E8%AE%B0/" />
+<meta property="article:published_time" content="2019-12-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-12-14T00:00:00+00:00" />
+<meta itemprop="name" content="docker 笔记">
+<meta itemprop="description" content="notes about docker">
+<meta itemprop="datePublished" content="2019-12-14T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-12-14T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="262">
+
+
+
+<meta itemprop="keywords" content="docker,network," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="docker 笔记"/>
+<meta name="twitter:description" content="notes about docker"/>
+
+  <!--[if lte IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+    <![endif]-->
+
+  <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+  </head>
+  <body class="main-center" itemscope itemtype="http://schema.org/WebPage"><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <div class="slimContent">
+      <div class="navbar-header">
+        <div class="profile-block text-center">
+          <a id="avatar" href="https://github.com/whalecold" target="_blank">
+            <img class="img-circle img-rotate" src="https://whalecold.github.io/xiaohei.jpg" width="200" height="200">
+          </a>
+          <h2 id="name" class="hidden-xs hidden-sm">whalecold</h2>
+          <h3 id="title" class="hidden-xs hidden-sm hidden-md">couxianyu</h3>
+          <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>hangzhou, China</small>
+        </div><div class="search" id="search-form-wrap">
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i
+                        class="icon icon-search"></i></button>
+            </span>
+        </div>
+        <div class="ins-search">
+            <div class="ins-search-mask"></div>
+            <div class="ins-search-container">
+                <div class="ins-input-wrapper">
+                    <input type="text" class="ins-search-input" placeholder="Type something..."
+                        x-webkit-speech />
+                    <button type="button" class="close ins-close ins-selectable" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="ins-section-wrapper">
+                    <div class="ins-section-container"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+        <ul class="nav navbar-nav main-nav">
+            <li class="menu-item menu-item-home">
+                <a href="/">
+                    <i class="icon icon-home-fill"></i>
+                  <span class="menu-title">Home</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-archives">
+                <a href="/posts">
+                    <i class="icon icon-archives-fill"></i>
+                  <span class="menu-title">Archives</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-categories">
+                <a href="/categories">
+                    <i class="icon icon-folder"></i>
+                  <span class="menu-title">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-tags">
+                <a href="/tags">
+                    <i class="icon icon-tags"></i>
+                  <span class="menu-title">Tags</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-about">
+                <a href="/about">
+                    <i class="icon icon-cup-fill"></i>
+                  <span class="menu-title">About</span>
+                </a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content"><p>enjoy~</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+      <div class="widget">
+    <h3 class="widget-title"> Categories</h3>
+    <div class="widget-body">
+        <ul class="category-list">
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/docker/" class="category-list-link">docker</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/go/" class="category-list-link">go</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/kubernetes/" class="category-list-link">kubernetes</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/linux/" class="category-list-link">linux</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/photography/" class="category-list-link">photography</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/tools/" class="category-list-link">tools</a><span class="category-list-count">2</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/work-note/" class="category-list-link">work-note</a><span class="category-list-count">2</span></li>
+        </ul>
+    </div>
+</div>
+      <div class="widget">
+    <h3 class="widget-title"> Tags</h3>
+    <div class="widget-body">
+        <ul class="tag-list">
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/cgroup/" class="tag-list-link">cgroup</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/color/" class="tag-list-link">color</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/docker/" class="tag-list-link">docker</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/go/" class="tag-list-link">go</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/golang/" class="tag-list-link">golang</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/kubernetes/" class="tag-list-link">kubernetes</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/linux/" class="tag-list-link">linux</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/mac/" class="tag-list-link">mac</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/network/" class="tag-list-link">network</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/security/" class="tag-list-link">security</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/shadowsocks/" class="tag-list-link">shadowsocks</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/shell/" class="tag-list-link">shell</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/ssl/" class="tag-list-link">ssl</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/unittest/" class="tag-list-link">unittest</a><span
+                    class="tag-list-count">1</span></li>
+            
+        </ul>
+
+    </div>
+</div>
+      
+  </div>
+</aside>
+
+    
+    
+  <aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+    <div class="slimContent">
+      <nav id="toc" class="article-toc">
+        <h3 class="toc-title">Catalogue</h3>
+        <div class="toc-content always-active"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#-docker--network-namespace">进入 docker 的 network namespace</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+      </nav>
+    </div>
+  </aside>
+<main class="main" role="main"><div class="content">
+  <article id="-" class="article article-type-" itemscope
+    itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      <h1 itemprop="name">
+  <a
+    class="article-title"
+    href="/2019/12/docker%E7%AC%94%E8%AE%B0/"
+    >docker 笔记</a
+  >
+</h1>
+
+      <div class="article-meta">
+        <span class="article-date">
+  <i class="icon icon-calendar-check"></i>
+<a href="https://whalecold.github.io/2019/12/docker%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2019-12-14 00:00:00 &#43;0000 UTC" itemprop="datePublished">2019-12-14</time>
+</a>
+</span><span class="article-category">
+  <i class="icon icon-folder"></i>
+  <a class="article-category-link" href="/categories/docker/"> docker </a>
+</span>  
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+    <a class="article-tag-link" href="/tags/docker/"> docker </a>
+    <a class="article-tag-link" href="/tags/network/"> network </a>
+  </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/12/docker%E7%AC%94%E8%AE%B0/#comments"
+            class="article-comment-link">Comments</a></span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count:262words</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count:1minutes </span>
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      <p>brief</p>
+<h3 id="-docker--network-namespace">进入 docker 的 network namespace</h3>
+<p>docker 的网络隔离用了 linux 的 namespace，这里就不多做阐述了。现在正常的生产环境中的镜像为了尽量的轻，可能不会去安装额外的无用的程序，比如 netstat, curl, wget 等工具，但是有时候需要去排查网络问题进去容器的时候发现没有这些工具又很麻烦，下面这个方式就是在主机上直接进入容器的 network namespace 去进行排查。</p>
+<p>假设你有一个 webserver 服务跑在容器上，你现在容器所在的主机上：</p>
+<ul>
+<li>找到容器的 container id.</li>
+</ul>
+<pre><code>docker ps | grep webserver
+</code></pre><p>显示如下
+<img src="/images/docker_note/docker_id.png" alt="内容"></p>
+<ul>
+<li>从上图中可以知道容器的 id, 然后通过这个 id 拿到 pid.</li>
+</ul>
+<pre><code>docker inspect ${container_id} --format='{{.State.Pid}}'
+</code></pre><p>显示如下
+<img src="/images/docker_note/pid.png" alt="内容"></p>
+<ul>
+<li>找到 pid 后就可以直接进入 network namespace 了</li>
+</ul>
+<pre><code>nsenter -t ${pid} -n
+</code></pre><p>这时候就进入了容器的 network namesapce 了，使用 <code>ifconfig</code> 可以看到当前的网卡信息
+<img src="/images/docker_note/ifconfig.png" alt="图片"></p>
+    </div>
+    <div class="article-footer">
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/whalecold" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="https://whalecold.github.io/xiaohei.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/whalecold" target="_blank"><span class="text-dark">whalecold</span><small class="ml-1x">couxianyu</small></a></h3>
+        <div>entertain yourself, enlighten others.</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+    </div>
+  </article>
+<section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+
+</div><nav class="bar bar-footer clearfix" data-stick-bottom>
+    <div class="bar-inner">
+        <ul class="pager pull-left">
+            <li class="prev">
+                <a href="https://whalecold.github.io/2019/11/hsl%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="HSL 学习笔记"><i
+                        class="icon icon-angle-left"
+                        aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+            </li>
+            <li class="next">
+                <a href="https://whalecold.github.io/2019/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"
+                    title="unit test"><span>Older&nbsp;&nbsp;</span><i
+                        class="icon icon-angle-right" aria-hidden="true"></i></a>
+            </li>
+            
+            <li class="toggle-toc">
+                <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false"
+                    title="Catalogue" role="button">
+                    <span>[&nbsp;</span><span>Catalogue</span>
+                    <i class="text-collapsed icon icon-anchor"></i>
+                    <i class="text-in icon icon-close"></i>
+                    <span>]</span>
+                </a>
+            </li>
+        </ul>
+        <div class="bar-right">
+            <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter"
+                data-mobile-sites="weibo,qq,qzone"></div>
+        </div>
+    </div>
+</nav>
+</main><footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+<ul class="social-links">
+    <li><a href="https://github.com/whalecold" target="_blank" title="github" data-toggle=tooltip data-placement=top >
+            <i class="icon icon-github"></i></a></li>
+    <li><a href="https://whalecold.github.io/index.xml" target="_blank" title="rss" data-toggle=tooltip data-placement=top >
+            <i class="icon icon-rss"></i></a></li>
+</ul>
+  <div class="copyright">
+    &copy;2017  -
+    2019
+    <div class="publishby">
+        Theme by <a href="https://github.com/xiaoheiAh" target="_blank"> xiaoheiAh </a>base on<a href="https://github.com/xiaoheiAh/hugo-theme-pure" target="_blank"> pure</a>.
+    </div>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+   window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/highlight.min.js"></script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/languages/rust.min.js"></script>
+<script type="text/javascript"
+   src="https://cdn.staticfile.org/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script>
+hljs.configure({
+  tabReplace: '    ', 
+  classPrefix: ''     
+                      
+})
+hljs.initHighlightingOnLoad();
+</script>
+<script type="text/javascript" src="https://whalecold.github.io/js/application.js"></script>
+<script type="text/javascript" src="https://whalecold.github.io/js/plugin.js"></script>
+<script>
+      (function (window) {
+          var INSIGHT_CONFIG = {
+              TRANSLATION: {
+                  POSTS: 'Posts',
+                  PAGES: 'Pages',
+                  CATEGORIES: 'Categories',
+                  TAGS: 'Tags',
+                  UNTITLED: '(Untitled)',
+              },
+              ROOT_URL: 'https:\/\/whalecold.github.io',
+              CONTENT_URL: 'https:\/\/whalecold.github.io\/searchindex.json ',
+          };
+          window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+      })(window);
+      </script>
+<script type="text/javascript" src="https://whalecold.github.io/js/insight.js"></script>
+
+<script defer>
+    var disqus_config = function () {
+        this.page.url = 'https:\/\/whalecold.github.io\/2019\/12\/docker%E7%AC%94%E8%AE%B0\/';
+        this.page.identifier = 'whalecold-github-io';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = '//' + 'whalecold-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+  </body>
+</html>

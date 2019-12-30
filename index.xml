@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>wowww</title>
+    <link>https://whalecold.github.io/</link>
+    <description>Recent content on wowww</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 30 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="https://whalecold.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Posts</title>
+      <link>https://whalecold.github.io/posts/</link>
+      <pubDate>Mon, 30 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/posts/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://whalecold.github.io/about/</link>
+      <pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/about/</guid>
+      <description>name: zhenglisheng profession： software engineer language:    c/c++ golang rust python   Learn more and contribute on GitHub.
+Thanks for reading!</description>
+    </item>
+    
+  </channel>
+</rss>

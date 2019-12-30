@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        unit test - wowww
+      </title>
+    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  
+  <meta name="theme-color" content="#000000" />
+  
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <meta name="description" content="tips and tricks for writing unit tests in" />
+  <meta name="generator" content="Hugo 0.63.0-DEV with theme pure" />
+  <title>unit test - wowww</title>
+  
+
+  <link rel="stylesheet" href="https://whalecold.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/9.15.10/styles/github.min.css">
+  <meta property="og:title" content="unit test" />
+<meta property="og:description" content="tips and tricks for writing unit tests in" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://whalecold.github.io/2019/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" />
+<meta property="article:published_time" content="2019-12-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-12-26T00:00:00+00:00" />
+<meta itemprop="name" content="unit test">
+<meta itemprop="description" content="tips and tricks for writing unit tests in">
+<meta itemprop="datePublished" content="2019-12-26T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-12-26T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1380">
+
+
+
+<meta itemprop="keywords" content="go,unittest," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="unit test"/>
+<meta name="twitter:description" content="tips and tricks for writing unit tests in"/>
+
+  <!--[if lte IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+    <![endif]-->
+
+  <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+  </head>
+  <body class="main-center" itemscope itemtype="http://schema.org/WebPage"><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <div class="slimContent">
+      <div class="navbar-header">
+        <div class="profile-block text-center">
+          <a id="avatar" href="https://github.com/whalecold" target="_blank">
+            <img class="img-circle img-rotate" src="https://whalecold.github.io/xiaohei.jpg" width="200" height="200">
+          </a>
+          <h2 id="name" class="hidden-xs hidden-sm">whalecold</h2>
+          <h3 id="title" class="hidden-xs hidden-sm hidden-md">couxianyu</h3>
+          <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>hangzhou, China</small>
+        </div><div class="search" id="search-form-wrap">
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i
+                        class="icon icon-search"></i></button>
+            </span>
+        </div>
+        <div class="ins-search">
+            <div class="ins-search-mask"></div>
+            <div class="ins-search-container">
+                <div class="ins-input-wrapper">
+                    <input type="text" class="ins-search-input" placeholder="Type something..."
+                        x-webkit-speech />
+                    <button type="button" class="close ins-close ins-selectable" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="ins-section-wrapper">
+                    <div class="ins-section-container"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+        <ul class="nav navbar-nav main-nav">
+            <li class="menu-item menu-item-home">
+                <a href="/">
+                    <i class="icon icon-home-fill"></i>
+                  <span class="menu-title">Home</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-archives">
+                <a href="/posts">
+                    <i class="icon icon-archives-fill"></i>
+                  <span class="menu-title">Archives</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-categories">
+                <a href="/categories">
+                    <i class="icon icon-folder"></i>
+                  <span class="menu-title">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-tags">
+                <a href="/tags">
+                    <i class="icon icon-tags"></i>
+                  <span class="menu-title">Tags</span>
+                </a>
+            </li>
+            <li class="menu-item menu-item-about">
+                <a href="/about">
+                    <i class="icon icon-cup-fill"></i>
+                  <span class="menu-title">About</span>
+                </a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content"><p>enjoy~</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+      <div class="widget">
+    <h3 class="widget-title"> Categories</h3>
+    <div class="widget-body">
+        <ul class="category-list">
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/docker/" class="category-list-link">docker</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/go/" class="category-list-link">go</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/kubernetes/" class="category-list-link">kubernetes</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/linux/" class="category-list-link">linux</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/photography/" class="category-list-link">photography</a><span class="category-list-count">1</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/tools/" class="category-list-link">tools</a><span class="category-list-count">2</span></li>
+            <li class="category-list-item"><a href="https://whalecold.github.io/categories/work-note/" class="category-list-link">work-note</a><span class="category-list-count">2</span></li>
+        </ul>
+    </div>
+</div>
+      <div class="widget">
+    <h3 class="widget-title"> Tags</h3>
+    <div class="widget-body">
+        <ul class="tag-list">
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/cgroup/" class="tag-list-link">cgroup</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/color/" class="tag-list-link">color</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/docker/" class="tag-list-link">docker</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/go/" class="tag-list-link">go</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/golang/" class="tag-list-link">golang</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/kubernetes/" class="tag-list-link">kubernetes</a><span
+                    class="tag-list-count">3</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/linux/" class="tag-list-link">linux</a><span
+                    class="tag-list-count">2</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/mac/" class="tag-list-link">mac</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/network/" class="tag-list-link">network</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/security/" class="tag-list-link">security</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/shadowsocks/" class="tag-list-link">shadowsocks</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/shell/" class="tag-list-link">shell</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/ssl/" class="tag-list-link">ssl</a><span
+                    class="tag-list-count">1</span></li>
+            
+            
+            <li class="tag-list-item"><a href="https://whalecold.github.io/tags/unittest/" class="tag-list-link">unittest</a><span
+                    class="tag-list-count">1</span></li>
+            
+        </ul>
+
+    </div>
+</div>
+      
+  </div>
+</aside>
+
+    
+    
+  <aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+    <div class="slimContent">
+      <nav id="toc" class="article-toc">
+        <h3 class="toc-title">Catalogue</h3>
+        <div class="toc-content always-active"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#tabledriventests">TableDrivenTests</a></li>
+        <li><a href="#separate-your-go-tests-with-build-tags">Separate Your Go Tests with Build Tags</a></li>
+        <li><a href="#put-your-tests-in-a-different-package">Put your tests in a different package</a></li>
+        <li><a href="#reference">Reference</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+      </nav>
+    </div>
+  </aside>
+<main class="main" role="main"><div class="content">
+  <article id="-" class="article article-type-" itemscope
+    itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      <h1 itemprop="name">
+  <a
+    class="article-title"
+    href="/2019/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"
+    >unit test</a
+  >
+</h1>
+
+      <div class="article-meta">
+        <span class="article-date">
+  <i class="icon icon-calendar-check"></i>
+<a href="https://whalecold.github.io/2019/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="article-date">
+  <time datetime="2019-12-26 00:00:00 &#43;0000 UTC" itemprop="datePublished">2019-12-26</time>
+</a>
+</span><span class="article-category">
+  <i class="icon icon-folder"></i>
+  <a class="article-category-link" href="/categories/go/"> go </a>
+</span>  
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+    <a class="article-tag-link" href="/tags/go/"> go </a>
+    <a class="article-tag-link" href="/tags/unittest/"> unittest </a>
+  </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/12/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/#comments"
+            class="article-comment-link">Comments</a></span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count:1380words</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count:3minutes </span>
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      <p>golang unit test</p>
+<p>在软件开发的过程中或多或少的引入一些 bug，而排查 bug 的难易程度也有一下分布</p>
+<pre><code>self check &lt; unit test &lt; smoke test &lt; qa test &lt; production accident 
+</code></pre><p>以上对产品的影响也是逐级递增的，所以越早发现 bug 对后期的影响也会越小，这里就记录下 golang 中单元测试（<code>Test-driven development</code>)的技巧和规范：</p>
+<h3 id="tabledriventests">TableDrivenTests</h3>
+<p>在之前写测试代码的时候经常发现自己写一个新的用例都是用的 <code>copy</code> 和 <code>paste</code>，写多了的时候我们是不是可以停下来想下有什么好的办法去减少重复劳动，
+官方有推荐了一种方法 <a href="https://github.com/golang/go/wiki/TableDrivenTests">table-driven tests</a>:</p>
+<ul>
+<li>初始化一个测试用例列表，每个 entry 中包含了输入和预期结果，还可以包含一些提高阅读性的额外信息，如 name 等，然后遍历这个数组，去执行测试代码，对于代码的执行结果和预期结果。这样每次添加新的用例的时候只需要添加一个新的 entry 即可，不再需要复制粘贴了。</li>
+</ul>
+<p>下面是一个例子：</p>
+<pre><code>var flagtests = []struct {
+	in  string
+	out string
+}{
+	{&quot;%a&quot;, &quot;[%a]&quot;},
+	{&quot;%-a&quot;, &quot;[%-a]&quot;},
+	{&quot;%+a&quot;, &quot;[%+a]&quot;},
+	{&quot;%#a&quot;, &quot;[%#a]&quot;},
+	{&quot;% a&quot;, &quot;[% a]&quot;},
+	{&quot;%0a&quot;, &quot;[%0a]&quot;},
+	{&quot;%1.2a&quot;, &quot;[%1.2a]&quot;},
+	{&quot;%-1.2a&quot;, &quot;[%-1.2a]&quot;},
+	{&quot;%+1.2a&quot;, &quot;[%+1.2a]&quot;},
+	{&quot;%-+1.2a&quot;, &quot;[%+-1.2a]&quot;},
+	{&quot;%-+1.2abc&quot;, &quot;[%+-1.2a]bc&quot;},
+	{&quot;%-1.2abc&quot;, &quot;[%-1.2a]bc&quot;},
+}
+func TestFlagParser(t *testing.T) {
+	var flagprinter flagPrinter
+	for _, tt := range flagtests {
+		t.Run(tt.in, func(t *testing.T) {
+			s := Sprintf(tt.in, &amp;flagprinter)
+			if s != tt.out {
+				t.Errorf(&quot;got %q, want %q&quot;, s, tt.out)
+			}
+		})
+	}
+}
+</code></pre><p>但程执行结果和预期不符的时候使用 <code>t.Errorf</code> 输出即可，还有一种选项是 <code>t.Fatalf</code>，后者会在有错误的时候立刻停止测试用例，而前者会跑完所有的用例，推荐第一种。还可以使测试并行执行：</p>
+<pre><code>package main
+
+import (
+	&quot;testing&quot;
+)
+
+func TestTLog(t *testing.T) {
+	t.Parallel() // marks TLog as capable of running in parallel with other tests
+	tests := []struct {
+		name string
+	}{
+		{&quot;test 1&quot;},
+		{&quot;test 2&quot;},
+		{&quot;test 3&quot;},
+		{&quot;test 4&quot;},
+	}
+	for _, tt := range tests {
+		tt := tt // NOTE: https://github.com/golang/go/wiki/CommonMistakes#using-goroutines-on-loop-iterator-variables
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel() // marks each test case as capable of running in parallel with each other 
+			t.Log(tt.name)
+		})
+	}
+}
+</code></pre><p>上面需要注意一个点，那就是在遍历测试的需要重新赋值，<code>tt := tt</code>，这点非常重要，在 parallel 执行的时候会启动 <code>goroutines</code> 去执行测试代码，如果这时候还是使用原来的 tt 的话每次遍历执行的值都指向了一个地址，会导致很多测试用例被漏掉，更详细的可以参考上面的链接。</p>
+<h3 id="separate-your-go-tests-with-build-tags">Separate Your Go Tests with Build Tags</h3>
+<p>在之前 c++ 代码中，可以根据定义的宏来决定某段代码是否执行，之前一直以为 golang 中是没有这个功能的，后来才发现是我孤陋寡闻了，golang 已经提供了 <code>Build Tags</code> 的功能了。</p>
+<h4 id="build-tags">Build Tags</h4>
+<p><code>build tags</code> 就是在 <code>.go</code> 源文件的顶部提供单行注释来告诉编译器在执行 <code>go build</code> 的时候是否要处理这个文件。下面这个文件就只是在有 <code>GOOS=linux</code> 环境变量的时候才会去编译。</p>
+<pre><code>// +build linux
+
+package mypackage
+
+...
+</code></pre><p>这个 <code>build tag</code> 需要尽可能的放到文件的顶部，并且需要在下方有个空行。这个 <code>tags</code> 同样可以用 <code>!</code> 来表示否定。 <code>// +build !linux</code> 将会表示在非 linux 环境下被编译。<code>tag</code> 同样支持多个条件判断，如果是在一行的表示 <code>或</code> 的逻辑，如果是分成两行则表示 <code>与</code> 的逻辑。</p>
+<pre><code>// +build linux darwin
+// +build amd64
+
+package mypackage
+
+...
+</code></pre><p>上述就表示了会在 <code>linux/amd64</code> 和 <code>darwin/amd64</code> 的环境中被编译。</p>
+<h4 id="separating-tests">Separating Tests</h4>
+<p>上面简单的描述了下 <code>Build Tags</code>，那么我们就可以利用这个特性来跑不同类型的测试用例了。</p>
+<p>我们在跑测试用例的时候可能会有 <code>integration</code> 和 <code>unit</code> 的例子，我们下面列出两个例子怎么去区分他们。</p>
+<p><code>myfile_test.go</code>:</p>
+<pre><code>package mypackage
+
+import &quot;testing&quot;
+
+...
+</code></pre><p><code>myfile_integration_test.go</code>:</p>
+<pre><code>// +build integration
+
+package mypackage
+
+import &quot;testing&quot;
+
+...
+</code></pre><p>当我们去执行 <code>go test</code> 的时候，就只有 <code>myfile_test.go</code> 文件的用例被执行了，如果想让 <code>myfile_integration_test.go</code> 中的测试用例也被执行，就需要提供一个 <code>tags</code> 参数，即<code>go test --tags=integration</code>。</p>
+<p>这里还有点小问题，就是在执行 <code>go test --tags=integration</code> 的时候，<code>myfile_test.go</code> 中的用例也会被执行，如果你不想他被执行的话，就是按照如下更改：</p>
+<pre><code>// +build !integration
+
+package mypackage
+
+import &quot;testing&quot;
+
+...
+</code></pre><h3 id="put-your-tests-in-a-different-package">Put your tests in a different package</h3>
+<p>正常来说一个 go 目录下只允许有一个包名，如果存在两个报名的话会有报错，但是却又特例：那就是 <code>_tes.go</code> 文件。</p>
+<p>当你想测试外部接口的时候，同时排除内部接口的干扰，这个就非常合适了，当测试文件定义了一个新的报名，调用这个文件就相当于是从外部调用。例子如下：</p>
+<p><code>file.go</code>:</p>
+<pre><code>package file
+
+func Open() {
+    ...
+}
+</code></pre><p><code>file_test.go</code>:</p>
+<pre><code>package file_test
+
+import (
+    &quot;xxx/file&quot;
+)
+
+func TestOpen() {
+    file.Open()
+}
+</code></pre><h3 id="reference">Reference</h3>
+<hr>
+<ul>
+<li><a href="https://github.com/golang/go/wiki/TableDrivenTests">https://github.com/golang/go/wiki/TableDrivenTests</a></li>
+<li><a href="https://medium.com/@matryer/5-simple-tips-and-tricks-for-writing-unit-tests-in-golang-619653f90742">https://medium.com/@matryer/5-simple-tips-and-tricks-for-writing-unit-tests-in-golang-619653f90742</a></li>
+<li><a href="https://mickey.dev/posts/go-build-tags-testing/">https://mickey.dev/posts/go-build-tags-testing</a></li>
+</ul>
+    </div>
+    <div class="article-footer">
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/whalecold" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="https://whalecold.github.io/xiaohei.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/whalecold" target="_blank"><span class="text-dark">whalecold</span><small class="ml-1x">couxianyu</small></a></h3>
+        <div>entertain yourself, enlighten others.</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+    </div>
+  </article>
+<section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+
+</div><nav class="bar bar-footer clearfix" data-stick-bottom>
+    <div class="bar-inner">
+        <ul class="pager pull-left">
+            <li class="prev">
+                <a href="https://whalecold.github.io/2019/12/docker%E7%AC%94%E8%AE%B0/" title="docker 笔记"><i
+                        class="icon icon-angle-left"
+                        aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+            </li>
+            <li class="next">
+                <a href="https://whalecold.github.io/2019/12/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%BA%8C/"
+                    title="k8s oom 排查记录（二）"><span>Older&nbsp;&nbsp;</span><i
+                        class="icon icon-angle-right" aria-hidden="true"></i></a>
+            </li>
+            
+            <li class="toggle-toc">
+                <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false"
+                    title="Catalogue" role="button">
+                    <span>[&nbsp;</span><span>Catalogue</span>
+                    <i class="text-collapsed icon icon-anchor"></i>
+                    <i class="text-in icon icon-close"></i>
+                    <span>]</span>
+                </a>
+            </li>
+        </ul>
+        <div class="bar-right">
+            <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter"
+                data-mobile-sites="weibo,qq,qzone"></div>
+        </div>
+    </div>
+</nav>
+</main><footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+<ul class="social-links">
+    <li><a href="https://github.com/whalecold" target="_blank" title="github" data-toggle=tooltip data-placement=top >
+            <i class="icon icon-github"></i></a></li>
+    <li><a href="https://whalecold.github.io/index.xml" target="_blank" title="rss" data-toggle=tooltip data-placement=top >
+            <i class="icon icon-rss"></i></a></li>
+</ul>
+  <div class="copyright">
+    &copy;2017  -
+    2019
+    <div class="publishby">
+        Theme by <a href="https://github.com/xiaoheiAh" target="_blank"> xiaoheiAh </a>base on<a href="https://github.com/xiaoheiAh/hugo-theme-pure" target="_blank"> pure</a>.
+    </div>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+   window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/highlight.min.js"></script>
+<script type="text/javascript" src="https://cdn.staticfile.org/highlight.js/9.15.10/languages/rust.min.js"></script>
+<script type="text/javascript"
+   src="https://cdn.staticfile.org/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script>
+hljs.configure({
+  tabReplace: '    ', 
+  classPrefix: ''     
+                      
+})
+hljs.initHighlightingOnLoad();
+</script>
+<script type="text/javascript" src="https://whalecold.github.io/js/application.js"></script>
+<script type="text/javascript" src="https://whalecold.github.io/js/plugin.js"></script>
+<script>
+      (function (window) {
+          var INSIGHT_CONFIG = {
+              TRANSLATION: {
+                  POSTS: 'Posts',
+                  PAGES: 'Pages',
+                  CATEGORIES: 'Categories',
+                  TAGS: 'Tags',
+                  UNTITLED: '(Untitled)',
+              },
+              ROOT_URL: 'https:\/\/whalecold.github.io',
+              CONTENT_URL: 'https:\/\/whalecold.github.io\/searchindex.json ',
+          };
+          window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+      })(window);
+      </script>
+<script type="text/javascript" src="https://whalecold.github.io/js/insight.js"></script>
+
+<script defer>
+    var disqus_config = function () {
+        this.page.url = 'https:\/\/whalecold.github.io\/2019\/12\/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95\/';
+        this.page.identifier = 'whalecold-github-io';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = '//' + 'whalecold-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+  </body>
+</html>

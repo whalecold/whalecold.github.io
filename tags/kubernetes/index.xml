@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kubernetes on wowww</title>
+    <link>https://whalecold.github.io/tags/kubernetes/</link>
+    <description>Recent content in kubernetes on wowww</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 30 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="https://whalecold.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>k8s oom 排查记录（二）</title>
+      <link>https://whalecold.github.io/2019/12/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%BA%8C/</link>
+      <pubDate>Mon, 30 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2019/12/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%BA%8C/</guid>
+      <description>&lt;p&gt;大概是和 oom 杠上了 - -！&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>k8s oom 排查记录（一）</title>
+      <link>https://whalecold.github.io/2019/11/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%B8%80/</link>
+      <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2019/11/k8s-oom-%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95%E4%B8%80/</guid>
+      <description>&lt;p&gt;许多年以后，面对 &lt;code&gt;goland&lt;/code&gt; 编辑器，我准会想起找到 bug 的那个遥远的下午。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>kubernetes 搭建</title>
+      <link>https://whalecold.github.io/2018/09/kubernetes%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Wed, 26 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://whalecold.github.io/2018/09/kubernetes%E6%90%AD%E5%BB%BA/</guid>
+      <description>&lt;p&gt;一个简单的 kubernetes 集群搭建教程&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
